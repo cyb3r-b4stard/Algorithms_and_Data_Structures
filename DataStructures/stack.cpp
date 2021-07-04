@@ -3,16 +3,16 @@
 template <typename T>
 class stack {
 private:
-    int64_t * array { new int64_t [8] };
-    int64_t size    { 8 };
-    int64_t top     { 0 };
+    T * array    { new T [8] };
+    int64_t size { 8 };
+    int64_t top  { 0 };
 public:
 
     ~stack() { delete [] array; }
 
     void push(T value) {
         if (top == size) {
-            int64_t * temp_array { new int64_t [size * 2] };
+            T * temp_array { new T [size * 2] };
 
             for (int64_t i = 0; i < size; ++i) {
                 temp_array[i] = array[i];

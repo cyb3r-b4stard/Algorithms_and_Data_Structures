@@ -3,10 +3,10 @@
 template <typename T>
 class queue {
 private:
-    int64_t * array { new int64_t [8] };
-    int64_t size    { 8 };
-    int64_t head    { 0 };
-    int64_t tail    { 0 };
+    T * array     { new T [8] };
+    int64_t size  { 8 };
+    int64_t head  { 0 };
+    int64_t tail  { 0 };
 public:
 
     ~queue() { delete [] array; }
@@ -14,7 +14,7 @@ public:
     void enqueue(T value) {
 
         if (tail == head) {
-            int64_t * temp_array { new int64_t [size * 2] };
+            T * temp_array { new T [size * 2] };
 
             for (int64_t i = 0; i < size; ++i) {
                 temp_array[i] = array[i];
