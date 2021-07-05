@@ -73,5 +73,8 @@ public:
 
 int main() {
     tree<int> t;
+    for (int i = 0; i < 100; ++i) {
+        t.insert(i);
+    }
     t.inorder(t.get_root());
 }
