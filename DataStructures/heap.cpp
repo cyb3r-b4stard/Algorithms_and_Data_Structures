@@ -4,44 +4,29 @@
 template <typename T>
 class heap {
 private:
-    T * array;
-    int64_t length;
-    int64_t size;
+    T * array       { new T [8] };
+    int64_t length  { 8 };
+    int64_t size;   { 0 }
 public:
-
-    heap() : array  { new T [8] },
-             length { 8 },
-             size   { 0 }
-    {}
-
     heap(std::initializer_list<T> lst) : array  { new T [lst.size()] },
                                          length { lst.size() },
                                          size   { lst.size() } {
-        int64_t i = 0;
 
-        for (auto it = lst.begin(); it != lst.end(); ++it) {
-            array[i] = *it;
-            ++i;
-        }
+        for (int64_t i = 0; i < lst.size(); ++i)
+            array[i] = *(lst.begin() + i);
 
-        for (int64_t j = length / 2; j >= 0; --j) {
+        for (int64_t j = length / 2; j >= 0; --j)
             this->max_heapify(j);
-        }
     }
 
     heap(std::vector<T> & vec) : array  { new T [vec.size()] },
                                          length { vec.size() },
                                          size   { vec.size() }  {
-        int64_t i = 0;
+        for (int64_t i = 0; i < vec.size(); ++i)
+            array[i] = *(vec.begin() + i);
 
-        for (auto it = vec.begin(); it != vec.end(); ++it) {
-            array[i] = *it;
-            ++i;
-        }
-
-        for (int64_t j = length / 2; j >= 0; --j) {
+        for (int64_t j = length / 2; j >= 0; --j)
             this->max_heapify(j);
-        }
     }
 
     ~heap() { delete [] array; }
