@@ -47,8 +47,8 @@ void heap_sort(std::vector<T> & array) {
 int main() {
     std::vector<int64_t> vec {2, 4, 1, 8, 7, 9, 3, 14, 10, 16};
     heap_sort(vec);
-    for (auto x : vec) {
+    for (auto & x : vec)
         std::cout << x << " ";
-    }
+
     return 0;
 }

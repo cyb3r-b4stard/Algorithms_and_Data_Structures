@@ -22,7 +22,7 @@ int main() {
     try {
         index = binary_search<int> (vec, 1);
         std::cout << "Success, the element has index: " << index << "\n";
-    } catch (std::exception &e) {
+    } catch (std::exception & e) {
         std::cout << e.what() <<"\n";
     }
     return 0;

@@ -1,13 +1,13 @@
 #include <iostream>
-#include <vector>
 
 template <typename T>
 class heap {
 private:
     T * array       { new T [8] };
     int64_t length  { 8 };
-    int64_t size;   { 0 }
+    int64_t size    { 0 };
 public:
+    heap() = default;
     heap(std::initializer_list<T> lst) : array  { new T [lst.size()] },
                                          length { lst.size() },
                                          size   { lst.size() } {
@@ -84,8 +84,14 @@ public:
 
         std::swap(array[0], array[--size]);
         max_heapify(0);
+
+        return max;
     }
 
+    T max() {
+        if (size == 0) throw std::out_of_range("Heap is empty");
+        return array[0];
+    }
     int64_t parent(int64_t i) { return i >> 1;       }
     int64_t left(int64_t i)   { return (i << 1) + 1; }
     int64_t right(int64_t i)  { return (i << 1) + 2; }
