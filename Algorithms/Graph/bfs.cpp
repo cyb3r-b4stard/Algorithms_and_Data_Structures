@@ -40,7 +40,7 @@ void bfs(std::vector<std::list<int64_t>> & graph, std::vector<vertex> & vertices
     }
 }
 
-int main() {
+int main() { 
     std::vector<std::list<int64_t>> graph (4);
     std::vector<vertex> vertices;
     for (int64_t i = 0; i < graph.size(); ++i) {
