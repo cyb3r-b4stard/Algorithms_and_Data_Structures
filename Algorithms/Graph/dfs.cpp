@@ -2,7 +2,7 @@
 #include <queue>
 #include <vector>
 
-#define inf 1000000000
+#define inf INT64_MAX
 
 enum class status {
     unprocessed, processing, processed
