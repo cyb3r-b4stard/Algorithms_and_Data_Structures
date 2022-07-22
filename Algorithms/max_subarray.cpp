@@ -4,7 +4,8 @@
 
 
 struct triple {
-	int64_t i, j;
+	int64_t i;
+	int64_t j;
 	int64_t sum;
 
 	triple (int64_t i_, int64_t j_, int64_t sum_) : i(i_), j(j_), sum(sum_) {}
