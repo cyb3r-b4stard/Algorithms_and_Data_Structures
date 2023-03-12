@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 
-int64_t parent(int64_t i) { return i >> 1;       }
+int64_t parent(int64_t i) { return (i - 1) >> 1;       }
 int64_t left(int64_t i)   { return (i << 1) + 1; }
 int64_t right(int64_t i)  { return (i << 1) + 2; }
 

@@ -92,7 +92,7 @@ public:
         if (size == 0) throw std::out_of_range("Heap is empty");
         return array[0];
     }
-    int64_t parent(int64_t i) { return i >> 1;       }
+    int64_t parent(int64_t i) { return (i - 1) >> 1;       }
     int64_t left(int64_t i)   { return (i << 1) + 1; }
     int64_t right(int64_t i)  { return (i << 1) + 2; }
 };

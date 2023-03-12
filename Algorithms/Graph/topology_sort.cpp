@@ -14,7 +14,9 @@ struct vertex
     status  stage       { status::unprocessed };
     int64_t id;
 
-    vertex(int64_t _id) : id(_id) {}
+    vertex(int64_t _id) 
+        : id(_id) 
+    {}
 };
 
 
@@ -65,6 +67,6 @@ int main()
     for (auto x : sorted) {
         std::cout << x << ' ';
     }
-    
+
     std::cout << std::endl;
 }

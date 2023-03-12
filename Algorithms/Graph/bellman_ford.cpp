@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 
+#define inf 1e9
+
 struct edge 
 {
     size_t from;
@@ -10,15 +12,11 @@ struct edge
 
 int64_t bellman_ford(const std::vector<edge>& graph, size_t gSize, size_t start, size_t finish)
 {
-    std::vector<int64_t> dist;
-
-    for (size_t i = 0; i < gSize; ++i) {
-        dist.push_back(INT64_MAX);
-    }
+    std::vector<int64_t> dist(gSize, inf);
 
     dist[start] = 0;
 
-    for (size_t i = 2; i <= gSize; ++i) {
+    for (size_t i = 1; i < gSize; ++i) {
         for (auto& e : graph) {
             dist[e.to] = std::min(dist[e.to], dist[e.from] + e.weight);
         }

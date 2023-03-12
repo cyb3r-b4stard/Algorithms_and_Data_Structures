@@ -1,23 +1,23 @@
 #include <iostream>
 #include <vector>
 
+#define inf 1e9
+
 int64_t floyd_warshall(std::vector<std::vector<int64_t>>& graph, size_t start, size_t finish) 
 {
-    std::vector<std::vector<int64_t>> dist;
+    std::vector<std::vector<int64_t>> dist (graph.size(), std::vector<int64_t> (graph.size());
     int64_t                           value;
 
     for (size_t i = 0; i < graph.size(); ++i) {
-        dist.push_back(std::vector<int64_t> {});
-        
         for (size_t j = 0; j < graph.size(); ++j) {
             if (i == j) {
                 value = 0;
             } else if (graph[i][j]) {
                 value = graph[i][j];
             } else {
-                value = INT64_MAX;
+                value = inf;
             }
-            dist[i].push_back(value);
+            dist[i][j] = value;
         }
     }
 

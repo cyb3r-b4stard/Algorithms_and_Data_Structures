@@ -16,9 +16,16 @@ public:
         if (tail == head) {
             T * temp_array { new T [size * 2] };
 
-            for (int64_t i = 0; i < size; ++i) {
-                temp_array[i] = array[i];
+            for (int64_t i = 0; i + head < size; ++i) {
+                temp_array[i] = array[head + i];
             }
+
+            for (int64_t i = 0; i < head; ++i) {
+                temp_array[i + size - head] = array[i];
+            }
+
+            head = 0;
+            tail = size;
 
             delete [] array;
             array = temp_array;
