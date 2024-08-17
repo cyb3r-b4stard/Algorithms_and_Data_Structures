@@ -1,11 +1,17 @@
 #include <iostream>
 #include <vector>
 
-#define inf 1e9
+/**
+ * @brief Calculcates minimal distance between any two vertices in any weighted graph
+ *        with no cycles of negative weight
+ * 
+ * @complexity O(V^3) 
+ */
 
-int64_t floyd_warshall(std::vector<std::vector<int64_t>>& graph, size_t start, size_t finish) 
-{
-    std::vector<std::vector<int64_t>> dist (graph.size(), std::vector<int64_t> (graph.size());
+const int64_t inf {INT64_MAX};
+
+int64_t floyd_warshall(std::vector<std::vector<int64_t>>& graph, size_t start, size_t finish) {
+    std::vector<std::vector<int64_t>> dist (graph.size(), std::vector<int64_t> (graph.size()));
     int64_t                           value;
 
     for (size_t i = 0; i < graph.size(); ++i) {
@@ -24,7 +30,7 @@ int64_t floyd_warshall(std::vector<std::vector<int64_t>>& graph, size_t start, s
     for (size_t k = 0; k < graph.size(); ++k) {
         for (size_t i = 0; i < graph.size(); ++i) {
             for (size_t j = 0; j < graph.size(); ++j) {
-                dist[i][j] = std::min(dist[i][j], graph[i][k] + graph[k][j]);
+                dist[i][j] = std::min(dist[i][j], dist[i][k] + dist[k][j]);
             }
         }
     }

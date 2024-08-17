@@ -3,22 +3,21 @@
 template <typename T>
 class stack {
 private:
-    T * array    { new T [8] };
-    int64_t size { 8 };
-    int64_t top  { 0 };
+    T * array    {new T [8]};
+    int64_t size {8};
+    int64_t top  {0};
 public:
-
-    ~stack() { delete [] array; }
+    ~stack() {delete[] array;}
 
     void push(T value) {
         if (top == size) {
-            T * temp_array { new T [size * 2] };
+            T* temp_array {new T [size * 2]};
 
             for (int64_t i = 0; i < size; ++i) {
                 temp_array[i] = array[i];
             }
 
-            delete [] array;
+            delete[] array;
             array = temp_array;
             size *= 2;
         }
@@ -26,12 +25,10 @@ public:
         array[top++] = value;
     }
 
-    T pop() { return array[--top];}
+    T pop() {return array[--top];}
 
-    bool is_empty() { return (top == 0); }
+    bool is_empty() {return (top == 0);}
 };
-
-
 
 int main() {
     stack<int64_t> s;

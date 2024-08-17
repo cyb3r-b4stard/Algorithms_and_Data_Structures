@@ -8,13 +8,17 @@ struct triple {
 	int64_t j;
 	int64_t sum;
 
-	triple (int64_t i_, int64_t j_, int64_t sum_) : i(i_), j(j_), sum(sum_) {}
+	triple (int64_t t_i, int64_t t_j, int64_t t_sum) 
+		: i(t_i), j(t_j), sum(t_sum) 
+	{}
 };
 
 template <typename T>
-triple max_crossing_subarray(std::vector<T> &vec, int64_t left, int64_t mid, int64_t right) {
-	int64_t left_sum = -INT64_MAX, right_sum = -INT64_MAX, sum = 0;
-	int64_t max_left, max_right;
+triple max_crossing_subarray(std::vector<T>& vec, int64_t left, int64_t right) {
+	int64_t left_sum {INT64_MIN}, right_sum {INT64_MIN}, sum;
+	int64_t max_left, max_right, mid {(left + right) / 2};
+
+	sum = 0;
 
 	for (int64_t i = mid; i >= left; --i) {
 		sum += vec[i];
@@ -23,7 +27,9 @@ triple max_crossing_subarray(std::vector<T> &vec, int64_t left, int64_t mid, int
 			max_left = i;
 		}
 	}
+
 	sum = 0;
+
 	for (int64_t i = mid + 1; i <= right; ++i) {
 		sum += vec[i];
 		if (sum > right_sum) {
@@ -37,16 +43,20 @@ triple max_crossing_subarray(std::vector<T> &vec, int64_t left, int64_t mid, int
 template <typename T>
 triple max_subarray(std::vector<T> &vec, int64_t left, int64_t right) {
 	if (left == right) return triple(left, right, vec[left]);
+
 	int64_t mid = (left + right) / 2;
+
 	triple left_arr  = max_subarray(vec, left, mid), 
-	       cross_arr = max_crossing_subarray(vec, left, mid, right), 
+	       cross_arr = max_crossing_subarray(vec, left, right), 
 		   right_arr = max_subarray(vec, mid + 1, right);
 
-	if (left_arr.sum >= right_arr.sum && left_arr.sum >= cross_arr.sum) 
+	if (left_arr.sum >= right_arr.sum && left_arr.sum >= cross_arr.sum)  {
 		return left_arr;
-	else if (right_arr.sum >= left_arr.sum && right_arr.sum >= cross_arr.sum)
+	} else if (right_arr.sum >= left_arr.sum && right_arr.sum >= cross_arr.sum) {
 		return right_arr;
-	else return cross_arr;
+	}
+	
+	return cross_arr;
 }
 
 
@@ -63,9 +73,10 @@ triple max_subarray_linear(std::vector<T> &vec, int64_t left_index, int64_t righ
 			left = left_minus + 1;
 			right = i;
 		}
+		
 		if (sum < 0) {
 			sum = 0;
-			left_minus = i;;
+			left_minus = i;
 		}
 	}
 

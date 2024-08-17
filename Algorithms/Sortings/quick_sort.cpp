@@ -2,7 +2,7 @@
 #include <vector>
 
 template <typename T>
-int64_t partition(std::vector<T> & vec, int64_t p, int64_t r) {
+int64_t partition(std::vector<T>& vec, int64_t p, int64_t r) {
     T x = vec[r];
     int64_t i = p - 1;
 

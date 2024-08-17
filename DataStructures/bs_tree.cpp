@@ -2,72 +2,76 @@
 
 template <typename T>
 struct leaf {
-    leaf * parent { nullptr };
-    leaf * left   { nullptr };
-    leaf * right  { nullptr };
+    leaf* parent {nullptr};
+    leaf* left   {nullptr};
+    leaf* right  {nullptr};
     T key;
 
-    leaf(T _key) : key { _key } {}
+    leaf(T t_key) 
+        : key {t_key} 
+    {}
 };
 
 template <typename T>
 class tree {
 private:
-    leaf<T> * root { nullptr };
-    void clear(leaf<T> * _root) {
-        if (_root) {
-            clear(_root->left);
-            clear(_root->right);
-            delete _root;
+    leaf<T>* root {nullptr};
+    
+    void clear() {
+        if (root) {
+            clear(root->left);
+            clear(root->right);
+            delete root;
         }
     }
 public:
-    tree(std::initializer_list<T> lst) {
-        for (T x : lst)
+    tree(std::initializer_list<T>& lst) {
+        for (T& x : lst)
             this->insert(x);
     }
     
     ~tree() {
-        clear(root);
+        clear();
     }
-    void insert(T _key) {
+
+    void insert(T key) {
         if (!root) {
-            root = new leaf<T> (_key);
+            root = new leaf<T> (key);
         } else {
-            leaf<T> * current        { root };
-            leaf<T> * current_parent { nullptr };
+            leaf<T>* current        {root};
+            leaf<T>* current_parent {nullptr};
 
             while (current) {  
                 current_parent = current;
-                if (current->key > _key) 
+
+                if (current->key > key) 
                     current = current->left;
                 else 
                     current = current->right;
             }
-            if (current_parent->key < _key) {
-                current_parent->right = new leaf<T> (_key);
+            if (current_parent->key < key) {
+                current_parent->right = new leaf<T> (key);
                 current_parent->right->parent = current_parent;
             } else {
-                current_parent->left = new leaf<T> (_key);
+                current_parent->left = new leaf<T> (key);
                 current_parent->left->parent = current_parent;
             }
         }
     }
-    leaf<T> * get_root() { return root; }
 
-    void inorder(leaf<T> * node) {
+    void inorder(leaf<T>* node) {
         if (node) {
             inorder(node->left);
-            std::cout << node->key << " ";
+            std::cout << node->key << ' ';
             inorder(node->right);
         }
     }
 
-    leaf<T> * search(T _key) {
-        leaf<T> * current { root };
+    leaf<T>* search(T key) {
+        leaf<T>* current {root};
 
-        while (current && current->key != _key) {
-            if (current->key > _key)
+        while (current && current->key != key) {
+            if (current->key > key)
                 current = current->left;
             else 
                 current = current->right;
@@ -76,38 +80,42 @@ public:
         return current;
     }
 
-    leaf<T> * min(leaf<T> * node) {
+    leaf<T>* min(leaf<T>* node) {
         while (node->left)
             node = node->left;
         
         return node;
     }
 
-    leaf<T> * max(leaf<T> * node) {
+    leaf<T>* max(leaf<T>* node) {
         while (node->right)
             node = node->right;
         
         return node;
     }
 
-    leaf<T> * successor(leaf<T> * node) {
+    leaf<T>* successor(leaf<T>* node) {
         if (node->right)
             return min(node->right);
-        leaf<T> * current_parent { node->parent };
-        leaf<T> * current { node };
+        
+        leaf<T>* current_parent {node->parent};
+        leaf<T>* current        {node};
 
         while (current_parent && current == current_parent->right) {
             current = current_parent;
             current_parent = current_parent->parent;
         }
+        
         return current_parent;
     }
 
-    leaf<T> * predecessor(leaf<T> * node) {
+    leaf<T>* predecessor(leaf<T>* node) 
+    {
         if (node->left)
             return max(node->left);
-        leaf<T> * current_parent { node->parent };
-        leaf<T> * current { node };
+        
+        leaf<T>* current_parent {node->parent};
+        leaf<T>* current        {node};
 
         while (current_parent && current == current_parent->left) {
             current = current_parent;

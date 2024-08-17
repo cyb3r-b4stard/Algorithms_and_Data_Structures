@@ -1,17 +1,24 @@
 #include <iostream>
 #include <vector>
-#include <list>
+#include <stack>
+#include <algorithm>
 
-#define inf INT64_MAX
+/**
+ * @brief Performs a topology sort on any directed acyclic graph, the resulting 
+ *        order obeys the following condition: 
+ *        if there is a path a_i -> a_j, then i < j
+ * 
+ * @complexity O(V + E)
+ */
 
-enum class status 
-{
+const int64_t inf {INT64_MAX};
+
+enum class status {
     unprocessed, processing, processed
 };
 
-struct vertex
-{
-    status  stage       { status::unprocessed };
+struct vertex {
+    status  stage {status::unprocessed };
     int64_t id;
 
     vertex(int64_t _id) 
@@ -19,32 +26,42 @@ struct vertex
     {}
 };
 
-
-
-void dfs_visit(std::vector<std::vector<int64_t>>& graph, std::vector<vertex>& vertices, std::list<size_t>& sorted, int64_t start_id) 
-{
-    for (auto& x : graph[start_id]) {
-        if (vertices[x].stage == status::processing) {
-            throw std::logic_error("Graph is not acyclic");
-        } else if (vertices[x].stage == status::unprocessed) {
-            dfs_visit(graph, vertices, sorted, x);
-        }
-    }
-    vertices[start_id].stage = status::processed;
+void dfs_visit(std::vector<std::vector<int64_t>>& graph, std::vector<vertex>& vertices, std::vector<int64_t>& sorted, int64_t start_id) {
+    std::stack<int64_t> stack;
+    int64_t current;
     
-    sorted.push_front(start_id);
+    stack.push(start_id);
+
+    while(!stack.empty()) {
+        current = stack.top();
+        vertices[current].stage = status::processing;
+
+        for (int64_t& next : graph[current]) {
+            if (vertices[next].status == status::processing) {
+                std::cout << "The graph is not acyclic!" << std::endl;
+            } else if (vertoces[next].status == status::unprocessed) {
+                stack.push(next);
+            }
+        }
+
+        if (stack.top() == current) {
+            vertices[current].status = status::processed;
+            sorted.push_back(current);
+            stack.pop();
+        }
+    }   
 }
 
-std::list<size_t> topology_sort(std::vector<std::vector<int64_t>>& graph, std::vector<vertex>& vertices) 
-{
-    std::list<size_t> sorted;
+std::vector<int64_t> topology_sort(std::vector<std::vector<int64_t>>& graph, std::vector<vertex>& vertices) {
+    std::vector<int64_t> sorted;
 
     for (auto& vertex : vertices) {
         if (vertex.stage == status::unprocessed) {
             dfs_visit(graph, vertices, sorted, vertex.id);
         }
     }
-
+    std::reverse(sorted.begin(), sorted.end());
+    
     return sorted;
 }
 
@@ -52,7 +69,7 @@ int main()
 {
     std::vector<std::vector<int64_t>> graph (7);
     std::vector<vertex> vertices;
-    std::list<size_t> sorted;
+    std::vector<int64_t> sorted;
     int a, b;
 
     for (int i = 0; i < 6; ++i)

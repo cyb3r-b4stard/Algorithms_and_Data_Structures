@@ -4,43 +4,33 @@
 #include <queue>
 #include <list>
 
-struct compare 
-{
-    typedef std::pair<int64_t, size_t> pair;
+/**
+ * @brief Calculates minimal distance between given vertices in any graph
+ *        with no edges of negative weight.
+ * 
+ * @complexity O(V + E * log(E))
+ */
 
-    bool operator() (const pair& lhs, const pair& rhs) 
-    {
-        return lhs.second < rhs.second;
-    }
-};
+const int64_t inf {INT64_MAX};
 
-int64_t dijkstra(const std::vector<std::list<std::pair<size_t, int64_t>>>& graph, size_t start, size_t finish) 
-{
-    std::priority_queue<std::pair<size_t, int64_t>, std::vector<std::pair<size_t, int64_t>>, compare> queue;
-    std::pair<size_t, int64_t>                      vCurrent;
-    std::vector<int64_t>                            dist;
-    std::vector<bool>                               processed;
+int64_t dijkstra(const std::vector<std::list<std::pair<size_t, int64_t>>>& graph, size_t start, size_t finish) {
+    std::priority_queue<std::pair<size_t, int64_t>> queue;
+    std::pair<size_t, int64_t>                      current;
+    std::vector<int64_t>                            dist(graph.size(), inf);
 
-    for (size_t i = 0; i < graph.size(); ++i) {
-        dist.push_back(INT64_MAX);
-        processed.push_back(false);
-    }
-
-    queue.push( {start, 0} );
+    queue.push({start, 0});
     dist[start] = 0;
 
     while (!queue.empty()) {
-        vCurrent = queue.top();
+        current = queue.top();
         queue.pop();
 
-        if (processed[vCurrent.first]) continue;
+        if (dist[current.first] < -current.second) continue;
 
-        processed[vCurrent.first] = true;
-
-        for (auto [index, weight] : graph[vCurrent.first]) {
-            if (dist[index] > vCurrent.second + weight) {
-                dist[index] = vCurrent.second + weight;
-                queue.push( {index, dist[index]} );
+        for (auto& [index, weight] : graph[current.first]) {
+            if (dist[index] > -current.second + weight) {
+                dist[index] = -current.second + weight;
+                queue.push({index, -dist[index]});
             }
         }
     }

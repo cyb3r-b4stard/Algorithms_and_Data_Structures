@@ -1,18 +1,19 @@
-#include <algorithm>
 #include <iostream>
 #include <vector>
-#define inf 1e9
+
+const int64_t inf = 1e9;
 
 template <typename T>
 void merge(std::vector<T> &vec, int64_t p, int64_t q, int64_t r) {
 
     std::vector<T> L, R;
-    int64_t i = 0, j = 0;
-    for (int64_t i = p; i < q + 1; ++i) {
-        L.push_back(vec[i]);
+    int64_t i {0}, j {0};
+
+    for (int64_t k = p; k < q + 1; ++k) {
+        L.push_back(vec[k]);
     }
-    for (int64_t i = q + 1 ; i < r + 1; ++i) {
-        R.push_back(vec[i]);
+    for (int64_t k = q + 1 ; k < r + 1; ++k) {
+        R.push_back(vec[k]);
     }
 
     for (int64_t k = p; k < r + 1; ++k) {
@@ -47,6 +48,7 @@ void merge_sort(std::vector<T> &vec, int64_t p, int64_t r) {
 int main() {
     std::vector<int64_t> vec {1, 5, 0, 2, -50};
     merge_sort<int64_t> (vec, 0, vec.size()-1);
+    
     for (size_t i = 0; i < vec.size(); ++i) {
         std::cout << vec[i] << " ";
     }

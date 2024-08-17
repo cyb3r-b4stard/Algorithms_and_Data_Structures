@@ -3,19 +3,21 @@
 template <typename T>
 struct node {
     T key;
-    node * next {nullptr};
-    node * prev {nullptr};
+    node* next {nullptr};
+    node* prev {nullptr};
 
-    node(T _key) : key(_key) {}
+    node(T t_key) 
+        : key(t_key) 
+    {}
 };
 
 template <typename T>
 class list {
 private:
-    node<T> * head {nullptr};
+    node<T>* head {nullptr};
 public:
     ~list() {
-        node<T> * current = head;
+        node<T>* current = head;
 
         while (current) {
             delete current->prev;
@@ -27,7 +29,7 @@ public:
     }
 
     T* search(T value) {
-        node<T> * current { head };
+        node<T>* current {head};
 
         while (current) {
             if (current->key == value) return current;
@@ -47,7 +49,7 @@ public:
     }
 
     void erase(T value) {
-        node<T> * current { search(value) };
+        node<T>* current {search(value)};
         if (current) {
             if (current->prev)
                 current->prev->next = current->next;
